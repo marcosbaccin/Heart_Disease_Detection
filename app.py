@@ -8,8 +8,8 @@ classifier = pickle.load(pickle_in)
 @st.cache_data()
 
 # Definindo a função que fará a previsão usando os dados que o usuário insere
-def prediction(cp, thalach, oldpeak, ca, thal):
-    prediction = classifier.predict([[cp, thalach, oldpeak, ca, thal]])
+def prediction(age, education, cigsPerDay, totChol, sysBP, diaBP, BMI, heartRate, glucose):
+    prediction = classifier.predict([[age, education, cigsPerDay, totChol, sysBP, diaBP, BMI, heartRate, glucose]])
 
     if prediction == 1:
         pred = 'Terá problema cardíaco'
@@ -30,42 +30,60 @@ def main():
     st.markdown(html_temp, unsafe_allow_html=True)
 
     # As linhas a seguir criam caixas nas quais o usuário pode inserir os dados necessários para fazer previsões
-    cp = st.number_input('Tipo de dor no peito',
+    age = st.number_input('Idade',
                          min_value=0,
-                         max_value=3,
-                         value=0,
-                         help="""
-                         0 - angina típica\n
-                         1 - angina atípica\n
-                         2 - não anginoso\n
-                         3 - assintomático""")
-    thalach = st.number_input('Frequência cardíaca máxima alcançada',
-                              min_value=50,
-                              max_value=250,
-                              value=50,
-                              help="Digite um valor de 50 a 250")
-    oldpeak = st.number_input('Depressão de ST induzida por exercício em relação ao repouso',
-                              min_value=0.0,
-                              max_value=10.0,
-                              value=0.0,
-                              help="Digite um valor de 0.0 a 10.0")
-    ca = st.number_input('Número de vasos principais coloridos por fluoroscopia',
+                         max_value=100,
+                         value=32,
+                         help="Informe sua idade")
+    education = st.number_input('Nível de educação',
+                              min_value=1,
+                              max_value=4,
+                              value=4,
+                              help="""
+                              1 - Sem ensino fundamental
+                              2 - Ensino fundamental completo
+                              3 - Ensino médio completo
+                              4 - Ensino superior completo
+                              """)
+    cigsPerDay = st.number_input('Cigarros por dia',
+                              min_value=0,
+                              max_value=100,
+                              value=0,
+                              help="Digite um valor de 0 a 100")
+    totChol = st.number_input('Nível de colesterol total (mg/dL)',
                          min_value=0,
-                         max_value=4,
-                         value=0,
-                         help="Digite um valor de 0 a 4")
-    thal = st.number_input('Talassemia',
+                         max_value=1000,
+                         value=234,
+                         help="Digite um valor de 0 a 1000")
+    sysBP = st.number_input('Pressão Arterial Sistólica (mmHg)',
                            min_value=0,
-                           max_value=3,
-                           value=0,
-                           help="""
-                           0-1 = normal\n
-                           2 = defeito corrigido\n
-                           3 = defeito reversível""")
+                           max_value=500,
+                           value=128,
+                           help="Digite um valor de 0 a 500")
+    diaBP = st.number_input('Pressão Sanguínea Diastólica (mmHg)',
+                           min_value=0,
+                           max_value=300,
+                           value=82,
+                           help="Digite um valor de 0 a 300")
+    BMI = st.number_input('IMC',
+                           min_value=0,
+                           max_value=100,
+                           value=25,
+                           help="Digite um valor de 0 a 100")
+    heartRate = st.number_input('Frequência Cardíaca (bpm)',
+                           min_value=0,
+                           max_value=300,
+                           value=75,
+                           help="Digite um valor de 0 a 300")
+    glucose = st.number_input('Nível de Glicose (mg/dl)',
+                           min_value=0,
+                           max_value=600,
+                           value=78,
+                           help="Digite um valor de 0 a 600")
     
     # Quando 'Prever' for clicado, faça a previsão e armazene-a
     if st.button('Prever'):
-        result = prediction(cp, thalach, oldpeak, ca, thal)
+        result = prediction(age, education, cigsPerDay, totChol, sysBP, diaBP, BMI, heartRate, glucose)
         st.success(result)
     
 if __name__ == '__main__':
