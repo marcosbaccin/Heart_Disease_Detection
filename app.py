@@ -38,7 +38,7 @@ def main():
     education = st.number_input('Nível de educação',
                               min_value=1,
                               max_value=4,
-                              value=4,
+                              value=2,
                               help="""
                               1 - Sem ensino fundamental
                               2 - Ensino fundamental completo
